@@ -95,6 +95,83 @@ app.get('/api/users', function (_req, res) {
 	// });
 });
 
+app.post('/api/users/:_id/exercises', function (req, res) {
+	var userId = req.params._id;
+	var description = req.body.description;
+	var duration = req.body.duration;
+	var date = req.body.date;
+
+	console.log('### add a new exercise ###'.toLocaleUpperCase());
+
+	//? Check for date
+	if (!date) {
+		date = new Date().toISOString().substring(0, 10);
+	}
+
+	console.log(
+		'looking for user with id ['.toLocaleUpperCase() + userId + '] ...'
+	);
+
+  User.findById(userId).then(function(userInDb){
+    let newExercise = new Exercise({
+			userId: userInDb._id,
+			username: userInDb.username,
+			description: description,
+			duration: parseInt(duration),
+			date: date,
+		});
+
+    newExercise.save().then(function(exercise){
+      res.json({
+				username: userInDb.username,
+				description: exercise.description,
+				duration: exercise.duration,
+				date: new Date(exercise.date).toDateString(),
+				_id: userInDb._id,
+			});
+    }).catch(function(err){
+      console.error(err);
+			res.json({ message: 'Exercise creation failed!' });
+    })
+  }).catch(function(err){
+    console.error(err);
+		res.json({ message: 'There are no users with that ID in the database!' });
+  })
+
+	//? Find the user
+	// User.findById(userId, (err, userInDb) => {
+	// 	if (err) {
+	// 		console.error(err);
+	// 		res.json({ message: 'There are no users with that ID in the database!' });
+	// 	}
+
+	// 	//* Create new exercise
+	// 	let newExercise = new Exercise({
+	// 		userId: userInDb._id,
+	// 		username: userInDb.username,
+	// 		description: description,
+	// 		duration: parseInt(duration),
+	// 		date: date,
+	// 	});
+
+	// 	newExercise.save((err, exercise) => {
+	// 		if (err) {
+	// 			console.error(err);
+	// 			res.json({ message: 'Exercise creation failed!' });
+	// 		}
+
+	// 		res.json({
+	// 			username: userInDb.username,
+	// 			description: exercise.description,
+	// 			duration: exercise.duration,
+	// 			date: new Date(exercise.date).toDateString(),
+	// 			_id: userInDb._id,
+	// 		});
+	// 	});
+	// });
+});
+
+
 
 
 
