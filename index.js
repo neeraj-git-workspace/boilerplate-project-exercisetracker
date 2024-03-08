@@ -60,6 +60,41 @@ app.post('/api/users', function (req, res) {
   });
 });
 
+app.get('/api/users', function (_req, res) {
+	console.log('### get all users ###'.toLocaleUpperCase());
+
+  User.find().then(function(users){
+    if(users.length == 0){
+      res.json({message: 'There are no users in the database!'})
+    }
+    console.log('users in database: '.toLocaleUpperCase() + users.length);
+
+		res.json(users);
+  }).catch(function(err){
+    console.log(err)
+    res.json({
+      message: 'Getting all users failed!',
+    });
+  })
+
+	// User.find({}, function (err, users) {
+	// 	if (err) {
+	// 		console.error(err);
+	// 		res.json({
+	// 			message: 'Getting all users failed!',
+	// 		});
+	// 	}
+
+	// 	if (users.length === 0) {
+	// 		res.json({ message: 'There are no users in the database!' });
+	// 	}
+
+	// 	console.log('users in database: '.toLocaleUpperCase() + users.length);
+
+	// 	res.json(users);
+	// });
+});
+
 
 
 
