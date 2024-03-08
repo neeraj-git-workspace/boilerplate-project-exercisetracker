@@ -6,10 +6,6 @@ const bodyParser = require('body-parser')
 
 const mongoose = require('mongoose')
 
-
-
-
-
 app.use(cors())
 app.use(express.static('public'))
 app.use(bodyParser.json())
@@ -76,23 +72,6 @@ app.get('/api/users', function (_req, res) {
       message: 'Getting all users failed!',
     });
   })
-
-	// User.find({}, function (err, users) {
-	// 	if (err) {
-	// 		console.error(err);
-	// 		res.json({
-	// 			message: 'Getting all users failed!',
-	// 		});
-	// 	}
-
-	// 	if (users.length === 0) {
-	// 		res.json({ message: 'There are no users in the database!' });
-	// 	}
-
-	// 	console.log('users in database: '.toLocaleUpperCase() + users.length);
-
-	// 	res.json(users);
-	// });
 });
 
 app.post('/api/users/:_id/exercises', function (req, res) {
@@ -137,39 +116,9 @@ app.post('/api/users/:_id/exercises', function (req, res) {
     console.error(err);
 		res.json({ message: 'There are no users with that ID in the database!' });
   })
-
-	//? Find the user
-	// User.findById(userId, (err, userInDb) => {
-	// 	if (err) {
-	// 		console.error(err);
-	// 		res.json({ message: 'There are no users with that ID in the database!' });
-	// 	}
-
-	// 	//* Create new exercise
-	// 	let newExercise = new Exercise({
-	// 		userId: userInDb._id,
-	// 		username: userInDb.username,
-	// 		description: description,
-	// 		duration: parseInt(duration),
-	// 		date: date,
-	// 	});
-
-	// 	newExercise.save((err, exercise) => {
-	// 		if (err) {
-	// 			console.error(err);
-	// 			res.json({ message: 'Exercise creation failed!' });
-	// 		}
-
-	// 		res.json({
-	// 			username: userInDb.username,
-	// 			description: exercise.description,
-	// 			duration: exercise.duration,
-	// 			date: new Date(exercise.date).toDateString(),
-	// 			_id: userInDb._id,
-	// 		});
-	// 	});
-	// });
 });
+
+
 
 
 
